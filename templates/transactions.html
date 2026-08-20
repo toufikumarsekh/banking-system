@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Transactions | SecureBank</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TRANSACTION PAGE
+     ===================================================== -->
+
+<div class="transaction-page">
+
+
+    <!-- =================================================
+         SIDEBAR
+         ================================================= -->
+
+    <aside class="transaction-sidebar">
+
+        <div class="transaction-logo">
+
+            <div class="logo-icon">
+                🏦
+            </div>
+
+            <div>
+                <h2>SecureBank</h2>
+                <span>Digital Banking</span>
+            </div>
+
+        </div>
+
+
+        <nav class="transaction-nav">
+
+            <a href="{{ url_for('dashboard') }}">
+
+                <span>🏠</span>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('customer.deposit') }}">
+
+                <span>💰</span>
+
+                Deposit
+
+            </a>
+
+
+            <a href="{{ url_for('customer.withdraw') }}">
+
+                <span>💸</span>
+
+                Withdraw
+
+            </a>
+
+
+            <a href="#" class="disabled-nav">
+
+                <span>🔄</span>
+
+                Transfer
+
+                <small>Coming Soon</small>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('customer.transactions') }}"
+                class="active-nav"
+            >
+
+                <span>📋</span>
+
+                Transactions
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout">
+
+                <span>🚪</span>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN AREA
+         ================================================= -->
+
+    <main class="transaction-main">
+
+
+        <!-- =============================================
+             TOP HEADER
+             ============================================= -->
+
+        <div class="transaction-topbar">
+
+            <div>
+
+                <span class="page-small-title">
+                    SECUREBANK / ACCOUNT
+                </span>
+
+                <h1>
+                    Transaction History
+                </h1>
+
+                <p>
+                    Track and manage your banking activity.
+                </p>
+
+            </div>
+
+
+            <div class="profile-mini">
+
+                <div class="profile-avatar">
+
+                    {{ user.full_name[0]|upper }}
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ user.full_name }}
+                    </strong>
+
+                    <span>
+                        Account Holder
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =============================================
+             SUMMARY CARDS
+             ============================================= -->
+
+        <div class="transaction-summary">
+
+
+            <!-- CURRENT BALANCE -->
+
+            <div class="summary-card balance-summary">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        💳
+                    </div>
+
+                    <span>
+                        Current Balance
+                    </span>
+
+                </div>
+
+                <h2>
+                    ₹{{ "%.2f"|format(user.balance or 0) }}
+                </h2>
+
+                <p>
+                    Available account balance
+                </p>
+
+            </div>
+
+
+
+            <!-- TOTAL DEPOSIT -->
+
+            <div class="summary-card deposit-summary">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        ↓
+                    </div>
+
+                    <span>
+                        Total Deposits
+                    </span>
+
+                </div>
+
+                <h2>
+                    ₹{{ "%.2f"|format(total_deposits) }}
+                </h2>
+
+                <p>
+                    Money added to account
+                </p>
+
+            </div>
+
+
+
+            <!-- TOTAL WITHDRAWAL -->
+
+            <div class="summary-card withdraw-summary">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        ↑
+                    </div>
+
+                    <span>
+                        Total Withdrawals
+                    </span>
+
+                </div>
+
+                <h2>
+                    ₹{{ "%.2f"|format(total_withdrawals) }}
+                </h2>
+
+                <p>
+                    Money withdrawn
+                </p>
+
+            </div>
+
+
+
+            <!-- TRANSACTION COUNT -->
+
+            <div class="summary-card count-summary">
+
+                <div class="summary-top">
+
+                    <div class="summary-icon">
+                        📊
+                    </div>
+
+                    <span>
+                        Transactions
+                    </span>
+
+                </div>
+
+                <h2>
+                    {{ transaction_count }}
+                </h2>
+
+                <p>
+                    Total account activity
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =============================================
+             TRANSACTION SECTION
+             ============================================= -->
+
+        <section class="transaction-section">
+
+
+            <div class="transaction-section-header">
+
+                <div>
+
+                    <h2>
+                        Recent Transactions
+                    </h2>
+
+                    <p>
+                        Your latest account activity
+                    </p>
+
+                </div>
+
+
+                <div class="transaction-count-badge">
+
+                    {{ transaction_count }} Transactions
+
+                </div>
+
+            </div>
+
+
+
+            {% if transactions %}
+
+
+            <!-- =========================================
+                 TRANSACTION LIST
+                 ========================================= -->
+
+            <div class="transaction-list">
+
+
+                {% for transaction in transactions %}
+
+
+                <div class="transaction-row">
+
+
+                    <!-- ICON -->
+
+                    <div
+                        class="
+                            transaction-icon
+                            {% if transaction.transaction_type == 'DEPOSIT' %}
+                                deposit-icon
+                            {% else %}
+                                withdraw-icon
+                            {% endif %}
+                        "
+                    >
+
+                        {% if transaction.transaction_type == "DEPOSIT" %}
+
+                            ↓
+
+                        {% else %}
+
+                            ↑
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <!-- DETAILS -->
+
+                    <div class="transaction-details">
+
+                        <h3>
+
+                            {% if transaction.transaction_type == "DEPOSIT" %}
+
+                                Money Deposited
+
+                            {% else %}
+
+                                Money Withdrawn
+
+                            {% endif %}
+
+                        </h3>
+
+                        <p>
+
+                            {% if transaction.transaction_type == "DEPOSIT" %}
+
+                                Funds added to your account
+
+                            {% else %}
+
+                                Funds withdrawn from your account
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- DATE -->
+
+                    <div class="transaction-date">
+
+                        <strong>
+                            {{ transaction.created_at.strftime(
+                                "%d %b %Y"
+                            ) }}
+                        </strong>
+
+                        <span>
+                            {{ transaction.created_at.strftime(
+                                "%I:%M %p"
+                            ) }}
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- STATUS -->
+
+                    <div class="transaction-status">
+
+                        <span class="completed-badge">
+                            Completed
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="transaction-amount">
+
+                        {% if transaction.transaction_type == "DEPOSIT" %}
+
+                            <strong class="positive-amount">
+
+                                +₹{{ "%.2f"|format(
+                                    transaction.amount
+                                ) }}
+
+                            </strong>
+
+                        {% else %}
+
+                            <strong class="negative-amount">
+
+                                -₹{{ "%.2f"|format(
+                                    transaction.amount
+                                ) }}
+
+                            </strong>
+
+                        {% endif %}
+
+
+                        <span>
+
+                            Balance:
+                            ₹{{ "%.2f"|format(
+                                transaction.balance_after
+                            ) }}
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- =========================================
+                 EMPTY STATE
+                 ========================================= -->
+
+            <div class="transaction-empty">
+
+                <div class="empty-icon">
+                    💳
+                </div>
+
+                <h2>
+                    No Transactions Yet
+                </h2>
+
+                <p>
+                    You haven't made any deposits or withdrawals.
+                    Your transaction history will appear here.
+                </p>
+
+
+                <div class="empty-actions">
+
+                    <a
+                        href="{{ url_for('customer.deposit') }}"
+                        class="empty-deposit-btn"
+                    >
+                        💰 Make a Deposit
+                    </a>
+
+                    <a
+                        href="{{ url_for('customer.withdraw') }}"
+                        class="empty-withdraw-btn"
+                    >
+                        💸 Withdraw Money
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+
+        <!-- =============================================
+             FOOTER
+             ============================================= -->
+
+        <footer class="transaction-footer">
+
+            <span>
+                🔒 SecureBank Secure Banking
+            </span>
+
+            <span>
+                All transactions are protected
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

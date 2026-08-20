@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Withdraw Money | SecureBank</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================================
+         SIDEBAR
+         ================================= -->
+
+    <div class="sidebar">
+
+        <h2>🏦 SecureBank</h2>
+
+        <ul>
+
+            <li>
+                <a href="/dashboard">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/deposit">
+                    Deposit
+                </a>
+            </li>
+
+            <li>
+                <a href="/withdraw">
+                    Withdraw
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Transfer
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    Transactions
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- ================================
+         MAIN CONTENT
+         ================================= -->
+
+    <div class="main-content">
+
+        <!-- Welcome -->
+
+        <div class="welcome-card">
+
+            <h1>
+                Withdraw Money
+            </h1>
+
+            <p>
+                Withdraw money securely from your bank account.
+            </p>
+
+        </div>
+
+
+        <!-- Withdrawal Form -->
+
+        <div class="form-card">
+
+            <h2>
+                Make a Withdrawal
+            </h2>
+
+            <p class="subtitle">
+
+                Available Balance:
+
+                <strong>
+                    ₹ {{ user.balance }}
+                </strong>
+
+            </p>
+
+
+            <!-- Error Message -->
+
+            {% if error %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- Form -->
+
+            <form method="POST">
+
+                <div class="input-group">
+
+                    <label for="amount">
+                        Withdrawal Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        step="0.01"
+                        min="1"
+                        placeholder="Enter amount"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Withdraw Money
+                </button>
+
+            </form>
+
+
+            <!-- Back -->
+
+            <p class="login-link">
+
+                <a href="/dashboard">
+                    ← Back to Dashboard
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

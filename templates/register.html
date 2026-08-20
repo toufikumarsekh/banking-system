@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account | SecureBank</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body class="auth-page">
+
+<div class="auth-container">
+
+
+    <!-- Left Side -->
+
+    <div class="auth-left">
+
+        <div class="auth-brand">
+            🏦 SecureBank
+        </div>
+
+        <h1>
+            Start your
+            <span>banking journey.</span>
+        </h1>
+
+        <p>
+            Create your SecureBank account and
+            experience simple, secure and modern
+            digital banking.
+        </p>
+
+
+        <div class="auth-features">
+
+            <div>
+                ✓ Secure Transactions
+            </div>
+
+            <div>
+                ✓ 24/7 Banking Access
+            </div>
+
+            <div>
+                ✓ Easy Account Management
+            </div>
+
+            <div>
+                ✓ Modern Digital Banking
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Right Side -->
+
+    <div class="auth-right">
+
+        <div class="auth-card">
+
+            <div class="auth-card-header">
+
+                <h2>
+                    Create Account
+                </h2>
+
+                <p>
+                    Start your banking journey today
+                </p>
+
+            </div>
+
+
+            <form method="POST">
+
+
+                <div class="auth-input-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="auth-input-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="auth-input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="auth-input-group">
+
+                    <label for="confirm_password">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="auth-btn"
+                >
+                    Create Account
+                </button>
+
+
+            </form>
+
+
+            <p class="auth-bottom-text">
+
+                Already have an account?
+
+                <a href="/login">
+                    Login
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | SecureBank</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- =================================
+         SIDEBAR
+         ================================= -->
+
+    <div class="sidebar">
+
+        <h2>🏦 SecureBank</h2>
+
+        <ul>
+
+            <!-- Dashboard -->
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+            </li>
+
+
+            <!-- Deposit -->
+
+            <li>
+                <a href="{{ url_for('customer.deposit') }}">
+                    Deposit
+                </a>
+            </li>
+
+
+            <!-- Withdraw -->
+
+            <li>
+                <a href="{{ url_for('customer.withdraw') }}">
+                    Withdraw
+                </a>
+            </li>
+
+
+            <!-- Transfer -->
+
+            <li>
+                <a href="#">
+                    Transfer
+                </a>
+            </li>
+
+
+            <!-- Transactions -->
+
+            <li>
+                <a href="{{ url_for('customer.transactions') }}">
+                    Transactions
+                </a>
+            </li>
+
+
+            <!-- Logout -->
+
+            <li>
+                <a href="/logout">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+
+    <!-- =================================
+         MAIN CONTENT
+         ================================= -->
+
+    <div class="main-content">
+
+
+        <!-- =================================
+             WELCOME CARD
+             ================================= -->
+
+        <div class="welcome-card">
+
+            <h1>
+                Welcome, {{ user.full_name }}
+            </h1>
+
+            <p>
+                Manage your account securely and efficiently.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================
+             ACCOUNT INFORMATION
+             ================================= -->
+
+        <div class="cards">
+
+
+            <!-- Account Number -->
+
+            <div class="info-card">
+
+                <h3>
+                    Account Number
+                </h3>
+
+                <p>
+                    {{ user.account_number }}
+                </p>
+
+            </div>
+
+
+
+            <!-- Email -->
+
+            <div class="info-card">
+
+                <h3>
+                    Email
+                </h3>
+
+                <p>
+                    {{ user.email }}
+                </p>
+
+            </div>
+
+
+
+            <!-- Current Balance -->
+
+            <div class="info-card">
+
+                <h3>
+                    Current Balance
+                </h3>
+
+                <p>
+                    ₹ {{ user.balance }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             BANKING ACTIONS
+             ================================= -->
+
+        <div class="action-buttons">
+
+
+            <!-- =================================
+                 DEPOSIT
+                 ================================= -->
+
+            <a
+                href="{{ url_for('customer.deposit') }}"
+                class="dashboard-btn"
+            >
+                💰 Deposit
+            </a>
+
+
+
+            <!-- =================================
+                 WITHDRAW
+                 ================================= -->
+
+            <a
+                href="{{ url_for('customer.withdraw') }}"
+                class="dashboard-btn"
+            >
+                💸 Withdraw
+            </a>
+
+
+
+            <!-- =================================
+                 TRANSFER
+                 ================================= -->
+
+            <a
+                href="#"
+                class="dashboard-btn"
+            >
+                🔄 Transfer
+            </a>
+
+
+
+            <!-- =================================
+                 TRANSACTIONS
+                 ================================= -->
+
+            <a
+                href="{{ url_for('customer.transactions') }}"
+                class="dashboard-btn"
+            >
+                📋 Transactions
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
